@@ -1,0 +1,19 @@
+language: c
+compiler:
+  - gcc
+
+before_install:
+    - git clone https://github.com/cpputest/cpputest ../cpputest
+    - pushd ../cpputest
+    - ./configure
+    - make
+    - sudo make install
+    - popd
+
+before_script:
+    - mkdir build/
+    - cd build/
+    - cmake ..
+    - make
+
+script: ./tests
