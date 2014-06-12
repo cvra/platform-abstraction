@@ -14,4 +14,7 @@ void platform_semaphore_delete(semaphore_t *sem);
 /** Takes a semaphore if available, blocks if not available. */
 void platform_semaphore_take(semaphore_t *sem);
 
+/** Releases (posts) a semaphore. */
+void platform_semaphore_release(semaphore_t *sem);
+
 #endif
