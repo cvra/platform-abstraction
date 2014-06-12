@@ -16,3 +16,9 @@ void platform_semaphore_delete(semaphore_t *sem)
 {
     free(sem);
 }
+
+void platform_semaphore_take(semaphore_t *sem)
+{
+    sem->count--;
+    sem->acquired_count++;
+}
