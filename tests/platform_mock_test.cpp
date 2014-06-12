@@ -19,6 +19,7 @@ TEST(SemaphoreMockTestGroup, CanCreateSemaphoreWithCount)
 {
     sem = os_semaphore_create(1);
     CHECK_EQUAL(1, sem->count);
+    CHECK_EQUAL(1, sem->max_count);
 }
 
 TEST(SemaphoreMockTestGroup, CanTakeSemaphore)
@@ -33,7 +34,8 @@ TEST(SemaphoreMockTestGroup, CanTakeSemaphore)
 TEST(SemaphoreMockTestGroup, CanReleaseSemaphore)
 {
     sem = os_semaphore_create(1);
+    os_semaphore_take(sem);
     os_semaphore_release(sem);
 
-    CHECK_EQUAL(2, sem->count);
+    CHECK_EQUAL(1, sem->count);
 }
