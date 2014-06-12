@@ -9,7 +9,7 @@ TEST_GROUP(SemaphoreMockTestGroup)
 {
     semaphore_t *sem;
 
-    void teardown()
+    void teardown(void)
     {
         os_semaphore_delete(sem);
     }
@@ -46,7 +46,12 @@ TEST_GROUP(MutexMockTestGroup)
 {
     mutex_t *mutex;
 
-    void teardown()
+    void setup(void)
+    {
+        mutex = os_mutex_create();
+    }
+
+    void teardown(void)
     {
         os_mutex_delete(mutex);
     }
@@ -54,15 +59,12 @@ TEST_GROUP(MutexMockTestGroup)
 
 TEST(MutexMockTestGroup, CanCreateMutex)
 {
-    mutex = os_mutex_create();
     CHECK_FALSE(mutex->acquired);
     CHECK_EQUAL(0, mutex->acquired_count)
 }
 
 TEST(MutexMockTestGroup, CanTakeMutex)
 {
-    mutex = os_mutex_create();
-
     os_mutex_take(mutex);
     CHECK_TRUE(mutex->acquired);
     CHECK_EQUAL(1, mutex->acquired_count)
@@ -70,8 +72,6 @@ TEST(MutexMockTestGroup, CanTakeMutex)
 
 TEST(MutexMockTestGroup, CanReleaseMutex)
 {
-    mutex = os_mutex_create();
-
     os_mutex_take(mutex);
     os_mutex_release(mutex);
 
