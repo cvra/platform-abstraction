@@ -11,3 +11,8 @@ semaphore_t *platform_semaphore_create(int count)
 
     return sem;
 }
+
+void platform_semaphore_delete(semaphore_t *sem)
+{
+    free(sem);
+}

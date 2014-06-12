@@ -8,4 +8,7 @@
 /** Creates a semaphore with given count value. */
 semaphore_t *platform_semaphore_create(int count);
 
+/** Frees the memory and operating system structures used by a semaphore. */
+void platform_semaphore_delete(semaphore_t *sem);
+
 #endif
