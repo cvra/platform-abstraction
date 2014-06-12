@@ -1,4 +1,6 @@
 # Platform Abstraction Layer
+[![Build Status](https://travis-ci.org/cvra/platform-abstraction.png)](https://travis-ci.org/cvra/platform-abstraction)
+
 This modules provides abstractions over common RTOS operations, such as
 semaphore creation, threads, etc.
 This abstraction layers allows for better portability across various RTOS
