@@ -4,8 +4,8 @@
 /** A semaphore structure. The implementation is public to allow to inspect
  * state when in tests. */
 typedef struct {
-    int count;
-    int acquired_count;
+    uint32_t count;
+    uint32_t acquired_count;
 } semaphore_t;
 
 #endif

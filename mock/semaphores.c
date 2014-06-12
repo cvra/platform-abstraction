@@ -2,7 +2,7 @@
 #include <assert.h>
 #include "../semaphores.h"
 
-semaphore_t *os_semaphore_create(int count)
+semaphore_t *os_semaphore_create(uint32_t count)
 {
     semaphore_t *sem;
     sem = malloc(sizeof(semaphore_t));

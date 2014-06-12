@@ -9,7 +9,7 @@
 #endif
 
 /** Creates a semaphore with given count value. */
-semaphore_t *os_semaphore_create(int count);
+semaphore_t *os_semaphore_create(uint32_t count);
 
 /** Frees the memory and operating system structures used by a semaphore. */
 void os_semaphore_delete(semaphore_t *sem);
