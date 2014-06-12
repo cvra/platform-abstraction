@@ -2,7 +2,7 @@
 #define SEMAPHORE_H_
 
 #ifdef __unix__
-#include "platform/mock/semaphores.h"
+#include "mock/semaphores.h"
 #endif
 
 /** Creates a semaphore with given count value. */

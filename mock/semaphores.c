@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "platform/semaphores.h"
+#include "../semaphores.h"
 
 semaphore_t *platform_semaphore_create(int count)
 {
