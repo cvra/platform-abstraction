@@ -21,6 +21,7 @@ void os_semaphore_delete(semaphore_t *sem)
 
 void os_semaphore_take(semaphore_t *sem)
 {
+    assert(sem->count > 0);
     sem->count--;
     sem->acquired_count++;
 }
