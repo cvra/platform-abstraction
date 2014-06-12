@@ -33,6 +33,7 @@ platform_semaphore_take(mysem);
 
 ## Use in testing
 When using the mock implementation `semaphore_t` is defined as a structure with two public fields :
+
 1.  `count` which indicates the value of the simulated semaphore counter.
 2. `acquired_count` which contains the number of time this semaphore was taken.
 
