@@ -2,6 +2,7 @@
 
 extern "C" {
 #include "../semaphores.h"
+#include "../mutex.h"
 }
 
 TEST_GROUP(SemaphoreMockTestGroup)
@@ -38,4 +39,41 @@ TEST(SemaphoreMockTestGroup, CanReleaseSemaphore)
     os_semaphore_release(sem);
 
     CHECK_EQUAL(1, sem->count);
+}
+
+
+TEST_GROUP(MutexMockTestGroup)
+{
+    mutex_t *mutex;
+
+    void teardown()
+    {
+        os_mutex_delete(mutex);
+    }
+};
+
+TEST(MutexMockTestGroup, CanCreateMutex)
+{
+    mutex = os_mutex_create();
+    CHECK_FALSE(mutex->acquired);
+    CHECK_EQUAL(0, mutex->acquired_count)
+}
+
+TEST(MutexMockTestGroup, CanTakeMutex)
+{
+    mutex = os_mutex_create();
+
+    os_mutex_take(mutex);
+    CHECK_TRUE(mutex->acquired);
+    CHECK_EQUAL(1, mutex->acquired_count)
+}
+
+TEST(MutexMockTestGroup, CanReleaseMutex)
+{
+    mutex = os_mutex_create();
+
+    os_mutex_take(mutex);
+    os_mutex_release(mutex);
+
+    CHECK_FALSE(mutex->acquired)
 }

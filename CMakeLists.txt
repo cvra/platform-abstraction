@@ -8,6 +8,7 @@ add_executable(
     tests/main.cpp
     tests/platform_mock_test.cpp  
     mock/semaphores.c
+    mock/mutex.c
     )
 
 target_link_libraries(
