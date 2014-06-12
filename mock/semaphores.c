@@ -22,3 +22,8 @@ void platform_semaphore_take(semaphore_t *sem)
     sem->count--;
     sem->acquired_count++;
 }
+
+void platform_semaphore_release(semaphore_t *sem)
+{
+    sem->count ++;
+}
