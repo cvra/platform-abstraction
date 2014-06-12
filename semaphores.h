@@ -11,4 +11,7 @@ semaphore_t *platform_semaphore_create(int count);
 /** Frees the memory and operating system structures used by a semaphore. */
 void platform_semaphore_delete(semaphore_t *sem);
 
+/** Takes a semaphore if available, blocks if not available. */
+void platform_semaphore_take(semaphore_t *sem);
+
 #endif
