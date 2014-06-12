@@ -67,7 +67,7 @@ TEST(MutexMockTestGroup, CanTakeMutex)
 {
     os_mutex_take(mutex);
     CHECK_TRUE(mutex->acquired);
-    CHECK_EQUAL(1, mutex->acquired_count)
+    CHECK_EQUAL(1, mutex->acquired_count);
 }
 
 TEST(MutexMockTestGroup, CanReleaseMutex)
@@ -75,5 +75,5 @@ TEST(MutexMockTestGroup, CanReleaseMutex)
     os_mutex_take(mutex);
     os_mutex_release(mutex);
 
-    CHECK_FALSE(mutex->acquired)
+    CHECK_FALSE(mutex->acquired);
 }
