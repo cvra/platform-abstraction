@@ -24,6 +24,17 @@ void os_mutex_take(mutex_t *mutex)
     mutex->acquired_count++;
 }
 
+bool os_mutex_try(mutex_t *mutex)
+{
+    if(mutex->acquired) {
+        return false;
+    } else {
+        mutex->acquired = true;
+        mutex->acquired_count++;
+        return true;
+    }
+}
+
 void os_mutex_release(mutex_t *mutex)
 {
     assert(mutex->acquired == true);
