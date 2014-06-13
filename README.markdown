@@ -25,7 +25,7 @@ if (os_semaphore_try(mysem)) {
     // Decreased semaphore
 }
 
-/* Block until available or timeout [ms]. */
+/* Block until available or timeout. */
 if (os_semaphore_try_timeout(mysem, 42000)) {
     // Decreased semaphore
 } else {
