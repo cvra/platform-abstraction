@@ -6,7 +6,6 @@
 typedef struct {
     int count;
     int acquired_count;
-    int max_count;
 } semaphore_t;
 
 #endif
