@@ -19,6 +19,9 @@ void os_semaphore_take(semaphore_t *sem);
 /** Takes a semaphore non-blocking */
 bool os_semaphore_try(semaphore_t *sem);
 
+/** Acquire the semaphore blocking with timeout [ms] */
+bool os_semaphore_try_timeout(semaphore_t *semaphore, float timeout);
+
 /** Releases (posts) a semaphore. */
 void os_semaphore_release(semaphore_t *sem);
 

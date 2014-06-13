@@ -35,6 +35,15 @@ bool os_semaphore_try(semaphore_t *sem){
     }
 }
 
+bool os_semaphore_try_timeout(semaphore_t *sem, float timeout)
+{
+    /* Single-threaded test, so try_timeout == try
+     * In the real thing, timeout should be checked like this:
+     * if (timeout < 0) timeout = 0;
+     */
+    return os_semaphore_try(sem);
+}
+
 void os_semaphore_release(semaphore_t *sem)
 {
     sem->count ++;

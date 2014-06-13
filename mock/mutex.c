@@ -35,6 +35,15 @@ bool os_mutex_try(mutex_t *mutex)
     }
 }
 
+bool os_mutex_try_timeout(mutex_t *mutex, float timeout)
+{
+    /* Single-threaded test, so try_timeout == try
+     * In the real thing, timeout should be checked like this:
+     * if (timeout < 0) timeout = 0;
+     */
+    return os_mutex_try(mutex);
+}
+
 void os_mutex_release(mutex_t *mutex)
 {
     assert(mutex->acquired == true);
