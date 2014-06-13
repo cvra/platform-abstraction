@@ -77,7 +77,7 @@ if (os_mutex_try(my_mutex)) {
 if (os_mutex_try_timeout(my_mutex, 69.0)) {
     // The resource is mine.
 } else {
-    // Waitet 69 ms for the resource. It wasn't enough.
+    // Waited 69 ms for the resource. It wasn't enough.
 }
 
 /* Release mutex */
