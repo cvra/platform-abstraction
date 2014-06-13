@@ -82,6 +82,7 @@ TEST(MutexMockTestGroup, CanTakeMutex)
 TEST(MutexMockTestGroup, CanTryMutex)
 {
     CHECK_TRUE(os_mutex_try(mutex));
+    CHECK_TRUE(mutex->acquired);
     CHECK_FALSE(os_mutex_try(mutex));
     CHECK_EQUAL(1, mutex->acquired_count);
 }
