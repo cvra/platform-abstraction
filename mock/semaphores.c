@@ -35,7 +35,7 @@ bool os_semaphore_try(semaphore_t *sem){
     }
 }
 
-bool os_semaphore_try_timeout(semaphore_t *sem, float timeout)
+bool os_semaphore_try_timeout(semaphore_t *sem, uint32_t timeout)
 {
     assert(timeout >= 0);
     return os_semaphore_try(sem);

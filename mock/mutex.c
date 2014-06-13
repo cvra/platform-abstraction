@@ -35,7 +35,7 @@ bool os_mutex_try(mutex_t *mutex)
     }
 }
 
-bool os_mutex_try_timeout(mutex_t *mutex, float timeout)
+bool os_mutex_try_timeout(mutex_t *mutex, uint32_t timeout)
 {
     assert(timeout >= 0);
     return os_mutex_try(mutex);

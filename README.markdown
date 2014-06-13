@@ -26,7 +26,7 @@ if (os_semaphore_try(mysem)) {
 }
 
 /* Block until available or timeout [ms]. */
-if (os_semaphore_try_timeout(mysem, 42.0)) {
+if (os_semaphore_try_timeout(mysem, 42000)) {
     // Decreased semaphore
 } else {
     // Semaphore not greater than zero after 42 ms of waiting
@@ -74,7 +74,7 @@ if (os_mutex_try(my_mutex)) {
 }
 
 /* Acquire mutex blocking with timeout */
-if (os_mutex_try_timeout(my_mutex, 69.0)) {
+if (os_mutex_try_timeout(my_mutex, 69000)) {
     // The resource is mine.
 } else {
     // Waited 69 ms for the resource. It wasn't enough.

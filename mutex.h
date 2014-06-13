@@ -2,6 +2,7 @@
 #define MUTEX_H_
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __unix__
 #include "mock/mutex.h"
@@ -19,8 +20,8 @@ void os_mutex_take(mutex_t *mutex);
 /** Acquire the mutex non-blocking */
 bool os_mutex_try(mutex_t *mutex);
 
-/** Acquire the mutex blocking with timeout [ms] */
-bool os_mutex_try_timeout(mutex_t *mutex, float timeout);
+/** Acquire the mutex blocking with timeout [us] */
+bool os_mutex_try_timeout(mutex_t *mutex, uint32_t timeout);
 
 /** Release a mutex. */
 void os_mutex_release(mutex_t *mutex);

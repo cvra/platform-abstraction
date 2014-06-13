@@ -46,9 +46,9 @@ TEST(SemaphoreMockTestGroup, CanTryTimeoutSemaphore)
 {
     sem = os_semaphore_create(1);
 
-    CHECK_TRUE(os_semaphore_try_timeout(sem, 42.0));
+    CHECK_TRUE(os_semaphore_try_timeout(sem, 42000));
     CHECK_EQUAL(0, sem->count);
-    CHECK_FALSE(os_semaphore_try_timeout(sem, 69.0));
+    CHECK_FALSE(os_semaphore_try_timeout(sem, 69000));
     CHECK_EQUAL(0, sem->count);
     CHECK_EQUAL(1, sem->acquired_count);
 }
@@ -100,9 +100,9 @@ TEST(MutexMockTestGroup, CanTryMutex)
 
 TEST(MutexMockTestGroup, CanTryTimeoutMutex)
 {
-    CHECK_TRUE(os_mutex_try_timeout(mutex, 42.0));
+    CHECK_TRUE(os_mutex_try_timeout(mutex, 42000));
     CHECK_TRUE(mutex->acquired);
-    CHECK_FALSE(os_mutex_try_timeout(mutex, 69.0));
+    CHECK_FALSE(os_mutex_try_timeout(mutex, 69000));
     CHECK_EQUAL(1, mutex->acquired_count);
 }
 
