@@ -25,6 +25,16 @@ void os_semaphore_take(semaphore_t *sem)
     sem->acquired_count++;
 }
 
+bool os_semaphore_try(semaphore_t *sem){
+    if (sem->count < 1) {
+        return false;
+    } else {
+        sem->count--;
+        sem->acquired_count++;
+        return true;
+    }
+}
+
 void os_semaphore_release(semaphore_t *sem)
 {
     sem->count ++;
