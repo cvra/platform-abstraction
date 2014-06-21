@@ -20,6 +20,18 @@ mysem = os_semaphore_create(10);
 /* Take (decrease) semaphore, blocks until available.*/
 os_semaphore_take(mysem);
 
+/* Only take semaphore when immediately available. */
+if (os_semaphore_try(mysem)) {
+    // Decreased semaphore
+}
+
+/* Block until available or timeout. */
+if (os_semaphore_try_timeout(mysem, 42000)) {
+    // Decreased semaphore
+} else {
+    // Semaphore not greater than zero after 42 ms of waiting
+}
+
 /* Release (increase) semaphore. */
 os_semaphore_release(mysem);
 
@@ -55,6 +67,18 @@ my_mutex = os_mutex_create();
 
 /* Acquire mutex */
 os_mutex_take(my_mutex);
+
+/* Acquire mutex non-blocking */
+if (os_mutex_try(my_mutex)) {
+    // The resource is mine.
+}
+
+/* Acquire mutex blocking with timeout */
+if (os_mutex_try_timeout(my_mutex, 69000)) {
+    // The resource is mine.
+} else {
+    // Waited 69 ms for the resource. It wasn't enough.
+}
 
 /* Release mutex */
 os_mutex_release(my_mutex);
