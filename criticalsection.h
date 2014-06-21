@@ -5,9 +5,7 @@
 #include <stdint.h>
 
 #ifdef __unix__
-#define CPU_CRITICAL_ENTER()
-#define CPU_CRITICAL_EXIT()
-#define CPU_SR_ALLOC()
+#include "mock/criticalsection.h"
 #else
 #include <cpu.h>
 #endif
@@ -38,26 +36,5 @@
  * \warn Will generate a compile-time bug if CRITICAL_SECTION_ALLOC hasn't been called beforehand
  */
 #define CRITICAL_SECTION_EXIT() {if(sizeof(__critical_alloc)>0){CPU_CRITICAL_EXIT();}}
-
-int main(int argc, char** argv)
-{
-    uint16_t roll = 20;
-
-    CRITICAL_SECTION_ALLOC();
-
-    printf("Isn't critical... yet! \n");
-
-    CRITICAL_SECTION_ENTER() 
-        printf("Rolled a %d.. Critical printf ! \n",roll);
-    CRITICAL_SECTION_EXIT()
-
-    printf("Isn't critical... anymore! \n");
-
-    CRITICAL_SECTION() {
-        printf("Rolled a %d.. Critical printf again ! \n",roll);
-    }
-    
-    return 0;
-}
     
 #endif

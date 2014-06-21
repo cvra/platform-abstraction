@@ -100,3 +100,67 @@ do_atomic_stuff(my_mutex);
 CHECK_FALSE(my_mutex->acquired);
 ```
 
+# Critical Section
+A critical section disables temporarily all interrupts at the CPU level, ensuring that all variables and data structures are edited atomically.
+
+
+## Direct Example 
+
+```c
+void myFunction(void* mySharedResource) {
+
+    /* initialize variables */
+    int myVariable = 0; 
+
+    /* after ALL initialization, call this */
+    CRITICAL_SECTION_ALLOC();
+
+    /* ... do whatever stuff you need ... */
+
+    /* enter critical section */
+    CRITICAL_SECTION_ENTER();
+
+    // The resource is mine.
+
+    /* exit critical section */
+    CRITICAL_SECTION_EXIT();
+}
+```
+
+## Block Example 
+
+```c
+void myFunction(void* mySharedResource) {
+
+    /* initialize variables */
+    int myVariable = 0; 
+
+    /* after ALL initialization, call this */
+    CRITICAL_SECTION_ALLOC();
+
+    /* ... do whatever stuff you need ... */
+
+    /* enter critical section */
+    CRITICAL_SECTION() {
+        // The resource is mine.
+    }
+}
+```
+
+## Use in testing
+When using the mock implementation, critical section is represented through a single variable.
+`__mock_critical_depth` contains the number of nested critical sections currently active.
+To access this value, two function-like macros are available.
+
+1. `mock_critsec_is_critical()` returns a bool, indicating whether the calling code is currently in a critical section
+2. `mock_critsec_get_depth()` returns an `int16_t` indicating the nesting depth of the critical sections
+
+This allows tests to check that a critical section finishes correctly :
+```c
+CRITICAL_SECTION_ALLOC();
+CRIICAL_SECTION() { 
+    do_atomic_stuff();
+}
+CHECK_FALSE(mock_critsec_is_critical());
+```
+
