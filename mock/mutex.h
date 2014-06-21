@@ -2,10 +2,11 @@
 #define MUTEX_MOCK_H_
 
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef struct {
     bool acquired;
-    int acquired_count;
+    uint32_t acquired_count;
 } mutex_t;
 
 #endif
