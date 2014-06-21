@@ -23,7 +23,7 @@
                                                     if(__critctrl < 0) \
         {    CPU_CRITICAL_ENTER(); } \
         else if(__critctrl > 0) \
-        {   CPU_CRITICAL_EXIT(); break; }\
+        {   CPU_CRITICAL_EXIT(); __critctrl = 0; break; }\
         else for(__critical_alloc = 0; __critical_alloc<1; __critical_alloc++) 
   
 
