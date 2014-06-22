@@ -14,5 +14,8 @@ typedef struct {
 #define THREAD_STACK(var, s) uint8_t __stack_ ## var [s];  \
     thread_stack_t var = {.size = s, .stack= __stack_ ## var };
 
+/** Dynamically allocates the memory for a stack on the heap. */
+thread_stack_t *thread_stack_create(size_t size);
+
 
 #endif

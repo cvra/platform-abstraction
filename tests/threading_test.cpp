@@ -26,3 +26,16 @@ TEST(ThreadingAPITestGroup, CanAccessMiddleOfStack)
     mystack.stack[1024] = 42; /* should not crash */
     CHECK_EQUAL(mystack.stack[1024], 42);
 }
+
+TEST(ThreadingAPITestGroup, CanDynamicallyAllocateStack)
+{
+    thread_stack_t *mystack = thread_stack_create(2048);
+    CHECK_EQUAL(2048, mystack->size);
+}
+
+TEST(ThreadingAPITestGroup, CanAccessDynamicallyAllocatedStack)
+{
+    thread_stack_t *mystack = thread_stack_create(2048);
+    mystack->stack[1024] = 42;
+    CHECK_EQUAL(42, mystack->stack[1024]);
+}

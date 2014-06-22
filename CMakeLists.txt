@@ -12,6 +12,7 @@ add_executable(
     tests/threading_test.cpp
     mock/semaphores.c
     mock/mutex.c
+    threading.c
     )
 
 target_link_libraries(
