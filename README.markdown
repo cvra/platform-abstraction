@@ -188,10 +188,19 @@ void main(void) {
     thread_init();
 
     /* Run thread */
-    thread_create(mythread, mystack, myprio);
+    thread_create(mythread, &mystack, myprio);
 
     /* Starts multi-tasking. */
     thread_start_scheduling();
 }
 ```
+
+## Dynamic stack creation
+```cpp
+thread_stack_t *mystack = thread_stack_create(2048);
+/* ... */
+thread_create(mythread, mystack, myprio);
+```
+Stack memory is automatically released on thread exit.
+
 
