@@ -165,6 +165,8 @@ CHECK_FALSE(mock_critsec_is_critical());
 ```
 
 # Threading
+
+**NOTE:** For now only stack allocation (dynamic and static) have been implemented.
 ## Basic usage
 ```cpp
 /* Creates a 2048 bytes stack. */
