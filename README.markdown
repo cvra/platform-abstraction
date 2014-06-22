@@ -187,8 +187,8 @@ void main(void) {
     /* Inits all the operating system structures. */
     thread_init();
 
-    /* Run thread */
-    thread_create(mythread, &mystack, myprio);
+    /* Run thread. Last parameter will be passed as context to the thread */
+    thread_create(mythread, &mystack, myprio, NULL);
 
     /* Starts multi-tasking. */
     thread_start_scheduling();
@@ -199,7 +199,7 @@ void main(void) {
 ```cpp
 thread_stack_t *mystack = thread_stack_create(2048);
 /* ... */
-thread_create(mythread, mystack, myprio);
+thread_create(mythread, mystack, myprio, NULL);
 ```
 Stack memory is automatically released on thread exit.
 
