@@ -31,6 +31,8 @@ TEST(ThreadingAPITestGroup, CanDynamicallyAllocateStack)
 {
     thread_stack_t *mystack = thread_stack_create(2048);
     CHECK_EQUAL(2048, mystack->size);
+
+    thread_stack_delete(mystack);
 }
 
 TEST(ThreadingAPITestGroup, CanAccessDynamicallyAllocatedStack)
@@ -38,4 +40,5 @@ TEST(ThreadingAPITestGroup, CanAccessDynamicallyAllocatedStack)
     thread_stack_t *mystack = thread_stack_create(2048);
     mystack->stack[1024] = 42;
     CHECK_EQUAL(42, mystack->stack[1024]);
+    thread_stack_delete(mystack);
 }

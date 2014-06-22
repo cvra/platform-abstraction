@@ -8,3 +8,9 @@ thread_stack_t *thread_stack_create(size_t size)
 
     return stack;
 }
+
+void thread_stack_delete(thread_stack_t *stack)
+{
+    free(stack->stack);
+    free(stack);
+}

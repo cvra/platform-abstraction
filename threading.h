@@ -17,5 +17,8 @@ typedef struct {
 /** Dynamically allocates the memory for a stack on the heap. */
 thread_stack_t *thread_stack_create(size_t size);
 
+/** Frees the memory allocated by thread_stack_create. */
+void thread_stack_delete(thread_stack_t *stack);
+
 
 #endif
