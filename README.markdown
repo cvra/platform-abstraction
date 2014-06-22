@@ -104,13 +104,13 @@ CHECK_FALSE(my_mutex->acquired);
 A critical section disables temporarily all interrupts at the CPU level, ensuring that all variables and data structures are edited atomically.
 
 
-## Direct Example 
+## Direct Example
 
 ```c
 void myFunction(void* mySharedResource) {
 
     /* initialize variables */
-    int myVariable = 0; 
+    int myVariable = 0;
 
     /* after ALL initialization, call this */
     CRITICAL_SECTION_ALLOC();
@@ -127,13 +127,13 @@ void myFunction(void* mySharedResource) {
 }
 ```
 
-## Block Example 
+## Block Example
 
 ```c
 void myFunction(void* mySharedResource) {
 
     /* initialize variables */
-    int myVariable = 0; 
+    int myVariable = 0;
 
     /* after ALL initialization, call this */
     CRITICAL_SECTION_ALLOC();
@@ -158,9 +158,51 @@ To access this value, two function-like macros are available.
 This allows tests to check that a critical section finishes correctly :
 ```c
 CRITICAL_SECTION_ALLOC();
-CRIICAL_SECTION() { 
+CRIICAL_SECTION() {
     do_atomic_stuff();
 }
 CHECK_FALSE(mock_critsec_is_critical());
 ```
+
+# Threading
+
+**NOTE:** For now only stack allocation (dynamic and static) have been implemented.
+## Basic usage
+```cpp
+/* Creates a 2048 bytes stack. */
+THREAD_STACK(mystack, 2048);
+
+const int myprio = 10;
+
+void mythread(void *context)
+{
+    while (1) {
+        /* ... */
+        if (foo == 42) {
+            return; /* Exit function : deletes thread. */
+        }
+        /* ... */
+    }
+}
+
+void main(void) {
+    /* Inits all the operating system structures. */
+    thread_init();
+
+    /* Run thread. Last parameter will be passed as context to the thread */
+    thread_create(mythread, &mystack, myprio, NULL);
+
+    /* Starts multi-tasking. */
+    thread_start_scheduling();
+}
+```
+
+## Dynamic stack creation
+```cpp
+thread_stack_t *mystack = thread_stack_create(2048);
+/* ... */
+thread_create(mythread, mystack, myprio, NULL);
+```
+Stack memory is automatically released on thread exit.
+
 

@@ -9,8 +9,10 @@ add_executable(
     tests/semaphore_mock_test.cpp
     tests/mutex_mock_test.cpp
     tests/criticalsection_mock_test.cpp
+    tests/threading_test.cpp
     mock/semaphores.c
     mock/mutex.c
+    threading.c
     )
 
 target_link_libraries(
