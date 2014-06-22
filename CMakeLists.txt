@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(fsm-framework)
+project(platform-abstraction)
 set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(
     tests
     tests/main.cpp
-    tests/platform_mock_test.cpp  
+    tests/semaphore_mock_test.cpp
+    tests/mutex_mock_test.cpp
+    tests/criticalsection_mock_test.cpp
     mock/semaphores.c
     mock/mutex.c
     )
