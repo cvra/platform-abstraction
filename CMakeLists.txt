@@ -9,8 +9,10 @@ add_executable(
     tests/semaphore_mock_test.cpp
     tests/mutex_mock_test.cpp
     tests/criticalsection_mock_test.cpp
+    tests/panic_mock_test.cpp
     tests/malloc_test.cpp
     xmalloc.c
+    panic.c
     mock/semaphores.c
     mock/mutex.c
     )
