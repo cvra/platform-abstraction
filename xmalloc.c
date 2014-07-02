@@ -10,3 +10,8 @@ void *xmalloc(size_t size)
 
     return result;
 }
+
+void xfree(void *p)
+{
+    free(p);
+}
