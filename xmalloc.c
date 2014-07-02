@@ -1,4 +1,5 @@
 #include "xmalloc.h"
+#include "panic.h"
 
 void *xmalloc(size_t size)
 {
@@ -6,7 +7,9 @@ void *xmalloc(size_t size)
 
     result = malloc(size);
 
-    /* TODO if error : panic() */
+    if (result == NULL) {
+        panic("out of memory!");
+    }
 
     return result;
 }
