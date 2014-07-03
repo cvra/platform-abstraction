@@ -8,7 +8,7 @@ void* xmalloc(size_t size)
     result = malloc(size);
 
     if (result == NULL) {
-        panic("out of memory!");
+        PANIC("out of memory!");
     }
 
     return result;
