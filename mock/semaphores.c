@@ -1,11 +1,11 @@
-#include <stdlib.h>
 #include <assert.h>
 #include "../semaphores.h"
+#include "../xmalloc.h"
 
 semaphore_t *os_semaphore_create(uint32_t count)
 {
     semaphore_t *sem;
-    sem = malloc(sizeof(semaphore_t));
+    sem = xmalloc(sizeof(semaphore_t));
 
     sem->count = count;
     sem->acquired_count = 0;
