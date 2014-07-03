@@ -1,7 +1,7 @@
 #include "xmalloc.h"
 #include "panic.h"
 
-void *xmalloc(size_t size)
+void* xmalloc(size_t size)
 {
     void *result;
 
