@@ -42,3 +42,22 @@ TEST(MallocTestGroup, ZeroSizeDoesntCrash)
     void *ptr = xmalloc(0);
     CHECK_EQUAL(0, panic_count);
 }
+
+TEST(MallocTestGroup, XReallocWorksToo)
+{
+    int *ptr = (int *)xmalloc(10*sizeof(int));
+    ptr[9] = 42;
+    ptr = (int *)xrealloc(ptr, 100);
+    ptr[99] = 43;
+
+    CHECK_EQUAL(42, ptr[9]);
+    CHECK_EQUAL(43, ptr[99]);
+    xfree(ptr);
+}
+
+TEST(MallocTestGroup, XReallocCanFailOnHugeSize)
+{
+    size_t max_size = (size_t) -1;
+    int *ptr = (int *)xrealloc(NULL, max_size);
+    CHECK_EQUAL(1, panic_count);
+}

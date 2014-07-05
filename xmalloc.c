@@ -18,3 +18,16 @@ void xfree(void *p)
 {
     free(p);
 }
+
+void* xrealloc(void *p, size_t size)
+{
+    void *result;
+
+    result = realloc(p, size);
+
+    if (result == NULL && size != 0) {
+        PANIC("out of memory!");
+    }
+
+    return result;
+}

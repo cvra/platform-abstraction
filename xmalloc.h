@@ -13,5 +13,8 @@ void* xmalloc(size_t size);
 /** Wrapper for free(). Should be used every time. */
 void xfree(void *p);
 
+/** Wrapper for realloc() similar to xmalloc. */
+void* xrealloc(void *p, size_t size);
+
 
 #endif
