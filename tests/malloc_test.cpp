@@ -22,9 +22,9 @@ TEST_GROUP(MallocTestGroup) {
 
 TEST(MallocTestGroup, CanAllocateMemory)
 {
-    int *array = (int *)xmalloc(100);
-    array[99] = 42;
-    CHECK_EQUAL(42, array[99]);
+    int *array = (int *)xmalloc(10*sizeof(int));
+    array[9] = 42;
+    CHECK_EQUAL(42, array[9]);
     xfree(array);
 }
 
