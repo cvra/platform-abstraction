@@ -5,6 +5,10 @@ void* xmalloc(size_t size)
 {
     void *result;
 
+    if (size == 0) {
+        return NULL;
+    }
+
     result = malloc(size);
 
     if (result == NULL) {
