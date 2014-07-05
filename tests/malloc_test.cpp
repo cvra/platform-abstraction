@@ -40,6 +40,5 @@ TEST(MallocTestGroup, CreatingHugeAmountOfMemoryFails)
 TEST(MallocTestGroup, ZeroSizeDoesntCrash)
 {
     void *ptr = xmalloc(0);
-    POINTERS_EQUAL(NULL, ptr);
     CHECK_EQUAL(0, panic_count);
 }

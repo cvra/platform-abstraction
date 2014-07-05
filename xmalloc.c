@@ -5,13 +5,9 @@ void* xmalloc(size_t size)
 {
     void *result;
 
-    if (size == 0) {
-        return NULL;
-    }
-
     result = malloc(size);
 
-    if (result == NULL) {
+    if (result == NULL && size != 0) {
         PANIC("out of memory!");
     }
 
