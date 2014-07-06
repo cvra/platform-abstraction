@@ -9,6 +9,17 @@ testing.
 
 Currently we aim to support uc/OS-II and the mock platform for testing.
 
+# Memory Allocation
+Our custom wrapper `xmalloc` should be used whenever the program would die when `malloc` fails.
+It has the same prototype as standard `malloc` and always returns a valid value or hard crashes.
+
+# Fatal error handling
+Fatal error handling is done through the use of the `PANIC` macro.
+
+## Use in testing
+`panic` is defined as a function pointer which allows one to replace it at runtime with a custom version to capture panics in tests.
+See `tests/panic_mock_test.cpp` for an example.
+
 # Semaphores
 
 ## Example

@@ -1,10 +1,10 @@
-#include <stdlib.h>
 #include <assert.h>
 #include "../mutex.h"
+#include "../xmalloc.h"
 
 mutex_t *os_mutex_create(void)
 {
-    mutex_t *mutex = malloc(sizeof(mutex_t));
+    mutex_t *mutex = xmalloc(sizeof(mutex_t));
 
     mutex->acquired = false;
     mutex->acquired_count = 0;
