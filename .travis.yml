@@ -12,9 +12,6 @@ before_install:
     - popd
 
 before_script:
-    - mkdir build/
-    - cd build/
-    - cmake ..
-    - make
+    - ./make.sh debug
 
-script: ./tests
+script: ./run-tests
