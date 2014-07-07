@@ -1,3 +1,6 @@
+depends:
+    - test-runner
+
 source:
     - xmalloc.c
     - panic.c
@@ -11,5 +14,3 @@ tests:
     - tests/criticalsection_mock_test.cpp
     - tests/panic_mock_test.cpp
     - tests/malloc_test.cpp
-
-test-runner: tests/main.cpp
