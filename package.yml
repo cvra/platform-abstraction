@@ -14,3 +14,4 @@ tests:
     - tests/criticalsection_mock_test.cpp
     - tests/panic_mock_test.cpp
     - tests/malloc_test.cpp
+    - tests/threading_test.cpp
