@@ -4,11 +4,10 @@ depends:
 source:
     - xmalloc.c
     - panic.c
-    - mock/semaphores.c
-    - mock/mutex.c
-
 
 tests:
+    - mock/semaphores.c
+    - mock/mutex.c
     - tests/semaphore_mock_test.cpp
     - tests/mutex_mock_test.cpp
     - tests/criticalsection_mock_test.cpp
