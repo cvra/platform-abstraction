@@ -27,3 +27,5 @@
 
 # CMake build products
 build/*
+CMakeLists.txt
+dependencies/*
