@@ -74,14 +74,19 @@ TEST(CriticalSectionMockTestGroup, NestedWorksToo)
 {
     CRITICAL_SECTION_ALLOC();
     mock().expectOneCall("CPU_CRITICAL_ENTER");
+    mock().expectOneCall("A");
     mock().expectOneCall("CPU_CRITICAL_ENTER");
+    mock().expectOneCall("B");
     mock().expectOneCall("CPU_CRITICAL_EXIT");
+    mock().expectOneCall("C");
     mock().expectOneCall("CPU_CRITICAL_EXIT");
 
     CRITICAL_SECTION() {
+        mock().actualCall("A");
         CRITICAL_SECTION() {
-
+            mock().actualCall("B");
         }
+        mock().actualCall("C");
     }
     mock().checkExpectations();
 }
