@@ -1,83 +1,88 @@
 #include "CppUTest/TestHarness.h"
+#include "CppUTestExt/MockSupport.h"
+
+#include "criticalsection_capturing_mock.h"
 
 extern "C" {
 #include "../criticalsection.h"
 }
 
+void mock_critical_entered(void)
+{
+    mock().actualCall("CPU_CRITICAL_ENTER");
+}
+
+void mock_critical_exited(void)
+{
+    mock().actualCall("CPU_CRITICAL_EXIT");
+}
+
+void criticalsection_use_capturing_mock()
+{
+    UT_PTR_SET(critical_entered, mock_critical_entered);
+    UT_PTR_SET(critical_exited, mock_critical_exited);
+}
+
 
 TEST_GROUP(CriticalSectionMockTestGroup)
 {
+    void setup(void)
+    {
+        criticalsection_use_capturing_mock();
+    }
+
+    void teardown(void)
+    {
+        mock().clear();
+    }
+
 };
 
-
-TEST(CriticalSectionMockTestGroup, CanAlloc)
+TEST(CriticalSectionMockTestGroup, EnterCriticalIsCapturedCorrectly)
 {
     CRITICAL_SECTION_ALLOC();
+    mock().expectOneCall("CPU_CRITICAL_ENTER");
 
-    CHECK_FALSE(mock_critsec_is_critical());
-}
-
-TEST(CriticalSectionMockTestGroup, CanEnterCritical)
-{
-    CRITICAL_SECTION_ALLOC();
     CRITICAL_SECTION_ENTER();
 
-    CHECK_EQUAL(mock_critsec_get_depth(),1);
+    mock().checkExpectations();
 }
 
-TEST(CriticalSectionMockTestGroup, CanExitCritical)
+TEST(CriticalSectionMockTestGroup, ExitCriticalIsCaptured)
 {
     CRITICAL_SECTION_ALLOC();
-    CRITICAL_SECTION_ENTER();
-
-    CHECK_EQUAL(mock_critsec_get_depth(),1);
+    mock().expectOneCall("CPU_CRITICAL_EXIT");
 
     CRITICAL_SECTION_EXIT();
 
-    CHECK_EQUAL(mock_critsec_get_depth(),0);
+    mock().checkExpectations();
 }
 
-TEST(CriticalSectionMockTestGroup, CanNestCritical)
+TEST(CriticalSectionMockTestGroup, BlockWorksToo)
 {
     CRITICAL_SECTION_ALLOC();
-
-    CRITICAL_SECTION_ENTER();
-    CRITICAL_SECTION_ENTER();
-
-    CHECK_EQUAL(mock_critsec_get_depth(),2);
-
-    CRITICAL_SECTION_EXIT();
-
-    CHECK_EQUAL(mock_critsec_get_depth(),1);
-
-    CRITICAL_SECTION_EXIT();
-
-    CHECK_EQUAL(mock_critsec_get_depth(),0);
-}
-
-TEST(CriticalSectionMockTestGroup, CanUseCriticalSectionBlock)
-{
-    CRITICAL_SECTION_ALLOC();
+    mock().expectOneCall("CPU_CRITICAL_ENTER");
+    mock().expectOneCall("CPU_CRITICAL_EXIT");
 
     CRITICAL_SECTION() {
-        CHECK_EQUAL(mock_critsec_get_depth(),1);
+
     }
-
-    CHECK_EQUAL(mock_critsec_get_depth(),0);
+    mock().checkExpectations();
 }
 
-TEST(CriticalSectionMockTestGroup, CanNestCriticalSectionBlock)
+TEST(CriticalSectionMockTestGroup, NestedWorksToo)
 {
     CRITICAL_SECTION_ALLOC();
+    mock().expectOneCall("CPU_CRITICAL_ENTER");
+    mock().expectOneCall("CPU_CRITICAL_ENTER");
+    mock().expectOneCall("CPU_CRITICAL_EXIT");
+    mock().expectOneCall("CPU_CRITICAL_EXIT");
 
     CRITICAL_SECTION() {
-
         CRITICAL_SECTION() {
-            CHECK_EQUAL(mock_critsec_get_depth(),2);
+
         }
-
-        CHECK_EQUAL(mock_critsec_get_depth(),1);
     }
-
-    CHECK_EQUAL(mock_critsec_get_depth(),0);
+    mock().checkExpectations();
 }
+
