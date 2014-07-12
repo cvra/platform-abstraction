@@ -91,3 +91,17 @@ TEST(CriticalSectionMockTestGroup, NestedWorksToo)
     mock().checkExpectations();
 }
 
+TEST(CriticalSectionMockTestGroup, CanBreakFromSection)
+{
+    CRITICAL_SECTION_ALLOC();
+    mock().expectOneCall("CPU_CRITICAL_ENTER");
+    mock().expectOneCall("CPU_CRITICAL_EXIT");
+
+    CRITICAL_SECTION() {
+        break;
+        FAIL("Should not get there !");
+    }
+
+    mock().checkExpectations();
+}
+
