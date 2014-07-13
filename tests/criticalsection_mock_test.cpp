@@ -29,6 +29,7 @@ TEST_GROUP(CriticalSectionMockTestGroup)
     void setup(void)
     {
         criticalsection_use_capturing_mock();
+        mock().strictOrder();
     }
 
     void teardown(void)
