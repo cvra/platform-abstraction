@@ -4,11 +4,11 @@
 #include <stdint.h>
 #include <assert.h>
 
-#define CPU_CRITICAL_ENTER() { ++__mock_critical_depth; } 
-#define CPU_CRITICAL_EXIT() { --__mock_critical_depth; }
-#define CPU_SR_ALLOC() int16_t __mock_critical_depth = 0;
+#define CPU_CRITICAL_ENTER() {critical_entered(); }
+#define CPU_CRITICAL_EXIT() {critical_exited(); }
+#define CPU_SR_ALLOC() {}
 
-#define mock_critsec_get_depth() (__mock_critical_depth)
-#define mock_critsec_is_critical() (__mock_critical_depth > 0 )
+extern void (*critical_entered)(void);
+extern void (*critical_exited)(void);
 
 #endif
