@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void panic_impl(const char *file, int line, const char *msg)
+void panic_impl(const char *file, int line, const char *msg, ...)
 {
     printf("PANIC (%s:%d): %s\n", file, line, msg);
 
@@ -10,4 +10,4 @@ void panic_impl(const char *file, int line, const char *msg)
 #endif
 }
 
-void (*panic)(const char *file, int line, const char *msg) = panic_impl;
+void (*panic)(const char *file, int line, const char *msg, ...) = panic_impl;

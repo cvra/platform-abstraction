@@ -7,7 +7,7 @@ extern "C" {
 
 
 static int panic_count;
-static void panic_counter(const char *file, int line, const char *msg)
+static void panic_counter(const char *file, int line, const char *msg, ...)
 {
     panic_count++;
 }
