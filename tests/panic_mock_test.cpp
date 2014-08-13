@@ -1,5 +1,6 @@
 #include "CppUTest/TestHarness.h"
 #include <cstring>
+#include <cstdio>
 
 extern "C" {
 #include "../panic.h"
@@ -10,10 +11,13 @@ extern "C" {
 static char error[ERROR_MAX_LEN];
 static int line;
 
-static void panic_dummy(const char *file, int l, const char *msg)
+static void panic_dummy(const char *file, int l, const char *msg, ...)
 {
-    strncpy(error, msg, ERROR_MAX_LEN);
     line = l;
+    va_list ap;
+    va_start(ap, msg);
+    vsprintf(error, msg, ap);
+    va_end(ap);
 }
 
 TEST_GROUP(PanicTestGroup) {
@@ -32,4 +36,10 @@ TEST(PanicTestGroup, CanGetPanicMessage)
     PANIC("lol");
     CHECK_EQUAL(__LINE__-1, line);
     STRCMP_EQUAL("lol", error);
+}
+
+TEST(PanicTestGroup, CanUseVariableArguments)
+{
+    PANIC("foobar %d", 123);
+    STRCMP_EQUAL("foobar 123", error);
 }
