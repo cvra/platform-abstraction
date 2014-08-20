@@ -44,10 +44,10 @@ TEST(MallocTestGroup, CreatingHugeAmountOfMemoryFails)
     CHECK_EQUAL(1, panic_count);
 }
 
-TEST(MallocTestGroup, ZeroSizeDoesntCrash)
+TEST(MallocTestGroup, ZeroSizeDoesCrash)
 {
     xmalloc(0);
-    CHECK_EQUAL(0, panic_count);
+    CHECK_EQUAL(1, panic_count);
 }
 
 TEST(MallocTestGroup, XReallocWorksToo)

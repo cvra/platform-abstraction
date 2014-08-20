@@ -7,6 +7,8 @@
  *
  * In case of an out of memory error, it will panic().
  * This allows the developper to skip checking for error in cases where it is non recoverable.
+ *
+ * @note xmalloc also panics if size == 0.
  */
 void* xmalloc(size_t size);
 

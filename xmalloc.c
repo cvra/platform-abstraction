@@ -5,9 +5,13 @@ void* xmalloc(size_t size)
 {
     void *result;
 
+    if (size == 0) {
+        PANIC("invalid alloc: zero byte");
+    }
+
     result = malloc(size);
 
-    if (result == NULL && size != 0) {
+    if (result == NULL) {
         PANIC("out of memory!");
     }
 
