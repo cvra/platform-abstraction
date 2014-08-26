@@ -2,19 +2,10 @@
 #include "../mutex.h"
 #include "../xmalloc.h"
 
-mutex_t *os_mutex_create(void)
+void os_mutex_init(mutex_t *mutex)
 {
-    mutex_t *mutex = xmalloc(sizeof(mutex_t));
-
     mutex->acquired = false;
     mutex->acquired_count = 0;
-
-    return mutex;
-}
-
-void os_mutex_delete(mutex_t *mutex)
-{
-    free(mutex);
 }
 
 void os_mutex_take(mutex_t *mutex)
