@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 #ifdef __unix__
-#include "mock/semaphores.h"
+#include "mock/semaphore.h"
 #else
 #include "ucos-iii/semaphore.h"
 #endif

@@ -1,5 +1,5 @@
 
-#include "../semaphores.h"
+#include "../semaphore.h"
 
 void os_semaphore_init(semaphore_t *sem, uint32_t count)
 {

@@ -1,5 +1,5 @@
 #include <assert.h>
-#include "../semaphores.h"
+#include "../semaphore.h"
 #include "../xmalloc.h"
 
 semaphore_t *os_semaphore_create(uint32_t count)

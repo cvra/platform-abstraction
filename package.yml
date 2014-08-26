@@ -6,7 +6,7 @@ source:
     - panic.c
 
 tests:
-    - mock/semaphores.c
+    - mock/semaphore.c
     - mock/mutex.c
     - mock/criticalsection.c
     - tests/semaphore_mock_test.cpp

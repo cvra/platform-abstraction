@@ -1,7 +1,7 @@
 #include "CppUTest/TestHarness.h"
 
 extern "C" {
-#include "../semaphores.h"
+#include "../semaphore.h"
 }
 
 TEST_GROUP(SemaphoreMockTestGroup)
