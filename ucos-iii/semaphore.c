@@ -1,4 +1,5 @@
 
+#include "../panic.h"
 #include "../semaphore.h"
 
 void os_semaphore_init(semaphore_t *sem, uint32_t count)
@@ -36,6 +37,7 @@ bool os_semaphore_try(semaphore_t *sem)
             return false;
         default:
             PANIC("Semaphore try: %d", err);
+            return false;
     }
 }
 
@@ -52,6 +54,7 @@ bool os_semaphore_try_timeout(semaphore_t *sem, uint32_t timeout)
             return false;
         default:
             PANIC("Semaphore try: %d", err);
+            return false;
     }
 }
 
