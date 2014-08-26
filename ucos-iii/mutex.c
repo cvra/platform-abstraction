@@ -1,4 +1,5 @@
 
+#include "../panic.h"
 #include "../mutex.h"
 
 void os_mutex_init(mutex_t *mutex)
@@ -41,6 +42,7 @@ bool os_mutex_try(mutex_t *mutex)
             return false;
         default:
             PANIC("Mutex try: %d", err);
+            return false;
     }
 }
 
@@ -58,6 +60,7 @@ bool os_mutex_try_timeout(mutex_t *mutex, uint32_t timeout)
             return false;
         default:
             PANIC("Mutex try: %d", err);
+            return false;
     }
 }
 
