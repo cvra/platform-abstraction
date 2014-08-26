@@ -175,3 +175,40 @@ CRIICAL_SECTION() {
 CHECK_FALSE(mock_critsec_is_critical());
 ```
 
+# Threading
+## Usage
+```cpp
+/* Creates a 2048 bytes stack. */
+THREAD_STACK mystack[2048];
+os_thread_t mythread;
+
+const int myprio = 10;
+
+void mymain(void *context)
+{
+    while (1) {
+        /* ... */
+
+        do_something();
+
+        /* wait 1000 milliseconds */
+        os_thread_sleep(1000);
+
+        /* ... */
+    }
+}
+
+void main(void) {
+    /* Inits all the operating system structures. */
+    os_init();
+
+    /* Run thread. Last parameter will be passed as context to the thread */
+    os_thread_create(&mythread, mymain, mystack, sizeof(mystack), "my thread", myprio, NULL);
+
+    /* Same thread but with a dynamically allocated stack. */
+    os_thread_create(&mythread, mymain, NULL, 2048, "my thread", myprio, NULL);
+
+    /* Starts multi-tasking. */
+    thread_run();
+}
+```
