@@ -6,13 +6,12 @@
 
 #ifdef __unix__
 #include "mock/semaphores.h"
+#else
+#include "ucos-iii/semaphore.h"
 #endif
 
-/** Creates a semaphore with given count value. */
-semaphore_t *os_semaphore_create(uint32_t count);
-
-/** Frees the memory and operating system structures used by a semaphore. */
-void os_semaphore_delete(semaphore_t *sem);
+/** Initializes a semaphore with given count value. */
+void os_semaphore_init(semaphore_t *sem, uint32_t count);
 
 /** Takes a semaphore if available, blocks if not available. */
 void os_semaphore_take(semaphore_t *sem);
