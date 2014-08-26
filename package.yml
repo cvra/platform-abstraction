@@ -5,6 +5,9 @@ source:
     - xmalloc.c
     - panic.c
 
+target.arm:
+    - ucos-iii/mutex.c
+
 tests:
     - mock/semaphores.c
     - mock/mutex.c
