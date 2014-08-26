@@ -192,7 +192,7 @@ void mymain(void *context)
         do_something();
 
         /* wait 1000 milliseconds */
-        os_thread_sleep(1000);
+        os_thread_sleep_ms(1000);
 
         /* ... */
     }

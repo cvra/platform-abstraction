@@ -20,6 +20,6 @@ void os_run(void);
 void os_thread_create(os_thread_t *thread, void (*fn)(void *), void *stack, size_t stack_size, const char *name, unsigned int prio, void *arg);
 
 /** Sleep for n milliseconds */
-void os_thread_sleep(uint32_t millisec);
+void os_thread_sleep_ms(uint32_t millisec);
 
 #endif /* THREADING_H_ */

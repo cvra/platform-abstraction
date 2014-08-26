@@ -88,7 +88,7 @@ void os_thread_create(os_thread_t *thread, void (*fn)(void *), void *stack, size
     }
 }
 
-void os_thread_sleep(uint32_t millisec)
+void os_thread_sleep_ms(uint32_t millisec)
 {
     OS_ERR err;
     OSTimeDlyHMSM(0, 0, 0, millisec, OS_OPT_TIME_HMSM_NON_STRICT, &err);
