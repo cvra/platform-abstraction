@@ -6,13 +6,12 @@
 
 #ifdef __unix__
 #include "mock/mutex.h"
+#else
+#include "ucos-iii/mutex.h"
 #endif
 
-/** Creates a new mutex. */
-mutex_t *os_mutex_create(void);
-
-/** Frees the memory and OS structures used by a mutex. */
-void os_mutex_delete(mutex_t *mutex);
+/** Initializes the mutex. */
+void os_mutex_init(mutex_t *mutex);
 
 /** Doesn't return until the mutex is acquired. */
 void os_mutex_take(mutex_t *mutex);
