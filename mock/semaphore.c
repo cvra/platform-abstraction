@@ -2,7 +2,7 @@
 #include "../semaphore.h"
 #include "../xmalloc.h"
 
-void os_semaphore_create(semaphore_t *sem, uint32_t count)
+void os_semaphore_init(semaphore_t *sem, uint32_t count)
 {
     sem->count = count;
     sem->acquired_count = 0;
