@@ -2,20 +2,10 @@
 #include "../semaphore.h"
 #include "../xmalloc.h"
 
-semaphore_t *os_semaphore_create(uint32_t count)
+void os_semaphore_create(semaphore_t *sem, uint32_t count)
 {
-    semaphore_t *sem;
-    sem = xmalloc(sizeof(semaphore_t));
-
     sem->count = count;
     sem->acquired_count = 0;
-
-    return sem;
-}
-
-void os_semaphore_delete(semaphore_t *sem)
-{
-    free(sem);
 }
 
 void os_semaphore_take(semaphore_t *sem)
