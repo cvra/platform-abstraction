@@ -25,29 +25,26 @@ See `tests/panic_mock_test.cpp` for an example.
 ## Example
 ```cpp
 /* Creates a semaphore with a counter value of 10. */
-semaphore_t *mysem;
-mysem = os_semaphore_create(10);
+semaphore_t mysem;
+os_semaphore_init(&mysem, 10);
 
 /* Take (decrease) semaphore, blocks until available.*/
-os_semaphore_take(mysem);
+os_semaphore_take(&mysem);
 
 /* Only take semaphore when immediately available. */
-if (os_semaphore_try(mysem)) {
+if (os_semaphore_try(&mysem)) {
     // Decreased semaphore
 }
 
 /* Block until available or timeout. */
-if (os_semaphore_try_timeout(mysem, 42000)) {
+if (os_semaphore_try_timeout(&mysem, 42000)) {
     // Decreased semaphore
 } else {
     // Semaphore not greater than zero after 42 ms of waiting
 }
 
 /* Release (increase) semaphore. */
-os_semaphore_release(mysem);
-
-/* Deletes semaphore. */
-os_semaphore_delete(mysem);
+os_semaphore_release(&mysem);
 ```
 
 ## Use in testing
