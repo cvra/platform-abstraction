@@ -73,29 +73,26 @@ They provide a way to reduce priority inversion of two tasks by promoting the pr
 
 ```c
 /* Mutex creation */
-mutex_t *my_mutex;
-my_mutex = os_mutex_create();
+mutex_t my_mutex;
+os_mutex_init(&my_mutex);
 
 /* Acquire mutex */
-os_mutex_take(my_mutex);
+os_mutex_take(&my_mutex);
 
 /* Acquire mutex non-blocking */
-if (os_mutex_try(my_mutex)) {
+if (os_mutex_try(&my_mutex)) {
     // The resource is mine.
 }
 
 /* Acquire mutex blocking with timeout */
-if (os_mutex_try_timeout(my_mutex, 69000)) {
+if (os_mutex_try_timeout(&my_mutex, 69000)) {
     // The resource is mine.
 } else {
     // Waited 69 ms for the resource. It wasn't enough.
 }
 
 /* Release mutex */
-os_mutex_release(my_mutex);
-
-/* Mutex delete */
-os_mutex_delete(my_mutex);
+os_mutex_release(&my_mutex);
 ```
 
 ## Use in testing
