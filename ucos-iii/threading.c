@@ -43,6 +43,9 @@ void os_run(void)
        PANIC("Failed to configure scheduler");
     }
 
+    /* init context switch timer for frequency OS_CFG_TICK_RATE_HZ */
+    OS_CPU_SysTickInit(CPU_CFG_CPU_CORE_FREQ / OS_CFG_TICK_RATE_HZ);
+
     OSStart(&err);
 
     if (err != OS_ERR_NONE) {
