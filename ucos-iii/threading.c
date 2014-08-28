@@ -137,21 +137,10 @@ void OSTaskReturnHook(OS_TCB *p_tcb)
     }
 }
 
-void OSTaskSwHook(void)
+static inline void task_profile_update(void)
 {
 #if OS_CFG_TASK_PROFILE_EN > 0u
     CPU_TS  ts;
-#endif
-#ifdef  CPU_CFG_INT_DIS_MEAS_EN
-    CPU_TS  int_dis_time;
-#endif
-
-#if (defined(TRACE_CFG_EN) && (TRACE_CFG_EN > 0u))
-    /* Record the event. */
-    TRACE_OS_TASK_SWITCHED_IN(OSTCBHighRdyPtr);
-#endif
-
-#if OS_CFG_TASK_PROFILE_EN > 0u
     /* Keep track of per-task running time */
     ts = OS_TS_GET();
     /* check if the running task changes */
@@ -161,15 +150,22 @@ void OSTaskSwHook(void)
     }
     OSTCBHighRdyPtr->CyclesStart = ts;
 #endif
+}
 
-#ifdef  CPU_CFG_INT_DIS_MEAS_EN
+static inline void int_disable_time_update(void)
+{
+#ifdef CPU_CFG_INT_DIS_MEAS_EN
+    CPU_TS  int_dis_time;
     /* Keep track of per-task interrupt disable time */
     int_dis_time = CPU_IntDisMeasMaxCurReset();
     if (OSTCBCurPtr->IntDisTimeMax < int_dis_time) {
         OSTCBCurPtr->IntDisTimeMax = int_dis_time;
     }
 #endif
+}
 
+static inline void sched_lock_time_update(void)
+{
 #if OS_CFG_SCHED_LOCK_TIME_MEAS_EN > 0u
     /* Keep track of per-task scheduler lock time */
     if (OSTCBCurPtr->SchedLockTimeMax < OSSchedLockTimeMaxCur) {
@@ -177,7 +173,18 @@ void OSTaskSwHook(void)
     }
     OSSchedLockTimeMaxCur = (CPU_TS)0;
 #endif
+}
 
+static inline void trace_task_switch(void)
+{
+#if (defined(TRACE_CFG_EN) && (TRACE_CFG_EN > 0u))
+    /* Record the event. */
+    TRACE_OS_TASK_SWITCHED_IN(OSTCBHighRdyPtr);
+#endif
+}
+
+static inline void newlib_context_switch(void)
+{
     /* switch newlib context */
     os_thread_t *t = (os_thread_t *)OSTCBHighRdyPtr->ExtPtr;
     if (t != NULL) {
@@ -187,6 +194,15 @@ void OSTaskSwHook(void)
            Those tasks share the same newlib context, since it isn't used anyway */
         _impure_ptr = default_newlib_reent;
     }
+}
+
+void OSTaskSwHook(void)
+{
+    task_profile_update();
+    int_disable_time_update();
+    sched_lock_time_update();
+    trace_task_switch();
+    newlib_context_switch();
 }
 
 void OSInitHook(void)
