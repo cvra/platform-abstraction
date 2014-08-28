@@ -1,5 +1,6 @@
 #include <string.h>
 #include <os.h>
+#include <os_cfg_app.h>
 #include "../threading.h"
 #include "../panic.h"
 #include "../mutex.h"
