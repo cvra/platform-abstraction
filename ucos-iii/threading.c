@@ -32,7 +32,12 @@ void os_run(void)
 {
     OS_ERR err;
 
-    OSSchedRoundRobinCfg(true, 1, &err);
+    bool enable = true;
+    /* switch tasks every system timer ticks */
+    OS_TICK default_time_quanta = 1;
+
+    /* enable round robin scheduling for tasks with same priority */
+    OSSchedRoundRobinCfg(enable, default_time_quanta, &err);
 
     if (err != OS_ERR_NONE) {
        PANIC("Failed to configure scheduler");
@@ -54,11 +59,11 @@ void os_thread_create(os_thread_t *thread, void (*fn)(void *), void *stack, size
 
     /* uCOS-III priority: from 2 up to OS_CFG_PRIO_MAX - 3 */
     prio += 2;
-
     if (prio > OS_CFG_PRIO_MAX - 3) {
-        PANIC("Invalid thread priority");
+        PANIC("Invalid thread priority: %u", prio);
     }
 
+    /* need to allocate the stack? */
     if (stack == NULL) {
         stack = xmalloc(stack_size);
         thread->dyn_alloc_stack = true;
@@ -68,20 +73,25 @@ void os_thread_create(os_thread_t *thread, void (*fn)(void *), void *stack, size
     thread->stack_base = stack;
     thread->stack_size = stack_size;
 
+    /* use default time quanta */
+    OS_TICK time_quanta = 0;
+    /* message queues are not (yet) in use */
+    OS_MSG_QTY nb_msg_queue = 0;
+
     /* create a uCOS-III task */
-    OSTaskCreate(&thread->ucos_tcb,          /* Address of TCB assigned to the task      */
-                 (CPU_CHAR *)name,           /* Name you want to give the task           */
-                 fn,                         /* Address of the task itself               */
-                 arg,                        /* Argument pointer                         */
-                 prio,                       /* Priority you want to assign to the task  */
-                 stack,                      /* Base address of task’s stack             */
-                 0,                          /* Watermark limit for stack growth         */
-                 stack_size/sizeof(CPU_STK), /* Stack size in number of CPU_STK elements */
-                 0,                          /* Size of task message queue               */
-                 0,                          /* Time quanta (in number of ticks)         */
-                 thread,                     /* Extension pointer                        */
-                 OS_OPT_TASK_STK_CHK | OS_OPT_TASK_SAVE_FP, /* Options                   */
-                 &err);                                     /* Error code                */
+    OSTaskCreate(&thread->ucos_tcb,          /* Address of TCB assigned to the task          */
+                 (CPU_CHAR *)name,           /* Name you want to give the task               */
+                 fn,                         /* Address of the task itself                   */
+                 arg,                        /* Argument pointer                             */
+                 prio,                       /* Priority you want to assign to the task      */
+                 stack,                      /* Base address of task’s stack                 */
+                 0,                          /* Watermark limit for stack growth, (not used) */
+                 stack_size/sizeof(CPU_STK), /* Stack size in number of CPU_STK elements     */
+                 nb_msg_queue,               /* Size of task message queue                   */
+                 time_quanta,                /* Time quanta (in number of ticks)             */
+                 thread,                     /* Extension pointer                            */
+                 OS_OPT_TASK_STK_CHK | OS_OPT_TASK_SAVE_FP, /* Options                       */
+                 &err);                                     /* Error code                    */
 
     if (err != OS_ERR_NONE) {
         PANIC("Failed to create thread");
@@ -91,7 +101,10 @@ void os_thread_create(os_thread_t *thread, void (*fn)(void *), void *stack, size
 void os_thread_sleep_ms(uint32_t millisec)
 {
     OS_ERR err;
-    OSTimeDlyHMSM(0, 0, 0, millisec, OS_OPT_TIME_HMSM_NON_STRICT, &err);
+    CPU_INT16U hr = 0;
+    CPU_INT16U min = 0;
+    CPU_INT16U sec = 0;
+    OSTimeDlyHMSM(hr, min, sec, millisec, OS_OPT_TIME_HMSM_NON_STRICT, &err);
 }
 
 /* __malloc_lock() may be called several times before __malloc_unlock()
@@ -113,10 +126,12 @@ void OSTaskReturnHook(OS_TCB *p_tcb)
 {
     os_thread_t *t = (os_thread_t *)p_tcb->ExtPtr;
 
+    /* if t == uCOS-III internal task */
     if (t == NULL) {
         return;
     }
 
+    /* need to free the stack? */
     if (t->dyn_alloc_stack) {
         xfree(t->stack_base);
     }
@@ -137,7 +152,9 @@ void OSTaskSwHook(void)
 #endif
 
 #if OS_CFG_TASK_PROFILE_EN > 0u
+    /* Keep track of per-task running time */
     ts = OS_TS_GET();
+    /* check if the running task changes */
     if (OSTCBCurPtr != OSTCBHighRdyPtr) {
         OSTCBCurPtr->CyclesDelta  = ts - OSTCBCurPtr->CyclesStart;
         OSTCBCurPtr->CyclesTotal += (OS_CYCLES)OSTCBCurPtr->CyclesDelta;
@@ -174,9 +191,13 @@ void OSTaskSwHook(void)
 
 void OSInitHook(void)
 {
+    /* setup 8 byte aligned ISR stack pointer */
     OS_CPU_ExceptStkBase = (CPU_STK *)(OSCfg_ISRStkBasePtr + OSCfg_ISRStkSize);
     OS_CPU_ExceptStkBase = (CPU_STK *)((CPU_STK)(OS_CPU_ExceptStkBase) & 0xFFFFFFF8);
 }
+
+
+/* unused hooks, need to be implemented though */
 
 void OSIdleTaskHook(void)
 {
