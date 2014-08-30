@@ -102,13 +102,35 @@ void os_thread_create(os_thread_t *thread, void (*fn)(void *), void *stack, size
     }
 }
 
-void os_thread_sleep_ms(uint32_t millisec)
+/* Thread waits ms milliseconds or less. */
+void os_thread_sleep_ms(uint32_t ms)
 {
     OS_ERR err;
     CPU_INT16U hr = 0;
     CPU_INT16U min = 0;
     CPU_INT16U sec = 0;
-    OSTimeDlyHMSM(hr, min, sec, millisec, OS_OPT_TIME_HMSM_NON_STRICT, &err);
+
+    if (ms == 0) {
+        return;
+    }
+
+    /* uCOS-III will round to the nearest tick, even if that means no delay. */
+    OSTimeDlyHMSM(hr, min, sec, (CPU_INT32U) ms, OS_OPT_TIME_HMSM_NON_STRICT, &err);
+}
+
+/* Thread waits at least ms milliseconds. */
+void os_thread_sleep_least_ms(uint32_t ms)
+{
+    OS_ERR err;
+
+    if (ms == 0) {
+        return;
+    }
+
+    /* round up to gurarantee a wait period of ms milliseconds */
+    OS_TICK dly = (OS_TICK) (ms - 1) * OS_CFG_TICK_RATE_HZ / 1000  + 1;
+
+    OSTimeDly(dly, OS_OPT_TIME_DLY, &err);
 }
 
 /* __malloc_lock() may be called several times before __malloc_unlock()
