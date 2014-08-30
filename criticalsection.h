@@ -30,7 +30,7 @@
 /** Critical section enter macro
  * \warn Will generate a compile-time bug if CRITICAL_SECTION_ALLOC hasn't been called beforehand
  */
-#define CRITICAL_SECTION_ENTER() {if(sizeof(__critical_alloc)>0){CPU_CRITICAL_ENTER();}}
+#define CRITICAL_SECTION_ENTER() {if(sizeof(__critical_alloc)>0){CPU_CRITICAL_ENTER();(void) __critctrl;}}
 
 /** Critical section exit macro
  * \warn Will generate a compile-time bug if CRITICAL_SECTION_ALLOC hasn't been called beforehand
