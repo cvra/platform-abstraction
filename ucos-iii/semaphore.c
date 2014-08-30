@@ -1,6 +1,7 @@
 
 #include "../panic.h"
 #include "../semaphore.h"
+#include <os_cfg_app.h>
 
 void os_semaphore_init(semaphore_t *sem, uint32_t count)
 {
@@ -45,7 +46,10 @@ bool os_semaphore_try_timeout(semaphore_t *sem, uint32_t timeout)
 {
     OS_ERR err;
 
-    OSSemPend(&sem->ucos_sem, (OS_TICK)timeout, OS_OPT_PEND_BLOCKING, NULL, &err);
+    /* convert timeout to ticks, rounding up */
+    OS_TICK ticks = (OS_TICK) (timeout - 1) * OS_CFG_TICK_RATE_HZ / 1000  + 1;
+
+    OSSemPend(&sem->ucos_sem, ticks, OS_OPT_PEND_BLOCKING, NULL, &err);
 
     switch (err) {
         case OS_ERR_NONE:
