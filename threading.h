@@ -19,7 +19,10 @@ void os_run(void);
 /** Creates a new thread. */
 void os_thread_create(os_thread_t *thread, void (*fn)(void *), void *stack, size_t stack_size, const char *name, unsigned int prio, void *arg);
 
-/** Sleep for n milliseconds */
-void os_thread_sleep_ms(uint32_t millisec);
+/** Sleep for ms milliseconds or less */
+void os_thread_sleep_ms(uint32_t ms);
+
+/** Sleep for at least ms milliseconds */
+void os_thread_sleep_least_ms(uint32_t ms);
 
 #endif /* THREADING_H_ */
