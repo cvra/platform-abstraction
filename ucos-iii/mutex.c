@@ -1,6 +1,7 @@
 
 #include "../panic.h"
 #include "../mutex.h"
+#include <os_cfg_app.h>
 
 void os_mutex_init(mutex_t *mutex)
 {
