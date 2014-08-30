@@ -102,33 +102,34 @@ void os_thread_create(os_thread_t *thread, void (*fn)(void *), void *stack, size
     }
 }
 
-/* Thread waits ms milliseconds or less. */
-void os_thread_sleep_ms(uint32_t ms)
+/* Thread waits us microseconds or less. */
+void os_thread_sleep_us(uint32_t us)
 {
     OS_ERR err;
     CPU_INT16U hr = 0;
     CPU_INT16U min = 0;
     CPU_INT16U sec = 0;
+    CPU_INT32U ms = us / 1000;
 
     if (ms == 0) {
         return;
     }
 
     /* uCOS-III will round to the nearest tick, even if that means no delay. */
-    OSTimeDlyHMSM(hr, min, sec, (CPU_INT32U) ms, OS_OPT_TIME_HMSM_NON_STRICT, &err);
+    OSTimeDlyHMSM(hr, min, sec, ms, OS_OPT_TIME_HMSM_NON_STRICT, &err);
 }
 
-/* Thread waits at least ms milliseconds. */
-void os_thread_sleep_least_ms(uint32_t ms)
+/* Thread waits at least us microseconds. */
+void os_thread_sleep_least_us(uint32_t us)
 {
     OS_ERR err;
 
-    if (ms == 0) {
+    if (us == 0) {
         return;
     }
 
-    /* round up to gurarantee a wait period of ms milliseconds */
-    OS_TICK dly = (OS_TICK) (ms - 1) * OS_CFG_TICK_RATE_HZ / 1000  + 1;
+    /* round up to gurarantee a wait period of us microseconds */
+    OS_TICK dly = (OS_TICK) (us - 1) * OS_CFG_TICK_RATE_HZ / 1000000  + 1;
 
     OSTimeDly(dly, OS_OPT_TIME_DLY, &err);
 }
