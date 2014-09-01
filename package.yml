@@ -6,11 +6,11 @@ source:
     - panic.c
 
 target.arm:
-    - ucos-iii/threading.c
+    - ucos-iii/semaphore.c
     - ucos-iii/mutex.c
 
 tests:
-    - mock/semaphores.c
+    - mock/semaphore.c
     - mock/mutex.c
     - mock/criticalsection.c
     - tests/semaphore_mock_test.cpp
