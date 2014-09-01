@@ -6,6 +6,7 @@ source:
     - panic.c
 
 target.arm:
+    - ucos-iii/threading.c
     - ucos-iii/semaphore.c
     - ucos-iii/mutex.c
 
