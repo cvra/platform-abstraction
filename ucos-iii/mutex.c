@@ -1,6 +1,7 @@
 
 #include "../panic.h"
 #include "../mutex.h"
+#include <os_cfg_app.h>
 
 void os_mutex_init(mutex_t *mutex)
 {
@@ -50,7 +51,10 @@ bool os_mutex_try_timeout(mutex_t *mutex, uint32_t timeout)
 {
     OS_ERR err;
 
-    OSMutexPend(&mutex->ucos_mutex, (OS_TICK)timeout, OS_OPT_PEND_BLOCKING, NULL, &err);
+    /* convert timeout to ticks, rounding up */
+    OS_TICK ticks = (OS_TICK) (timeout - 1) * OS_CFG_TICK_RATE_HZ / 1000000 + 1;
+
+    OSMutexPend(&mutex->ucos_mutex, ticks, OS_OPT_PEND_BLOCKING, NULL, &err);
 
     switch (err) {
         case OS_ERR_NONE:
