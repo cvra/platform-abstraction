@@ -7,11 +7,11 @@
 #include "../xmalloc.h"
 
 /* default newlib context */
-struct _reent *default_newlib_reent;
+static struct _reent *default_newlib_reent;
 
 /* mutex to guard malloc access */
-mutex_t malloc_mutex;
-
+static mutex_t malloc_mutex;
+static bool os_running = false;
 
 void os_init(void)
 {
@@ -47,6 +47,7 @@ void os_run(void)
     /* init context switch timer for frequency OS_CFG_TICK_RATE_HZ */
     OS_CPU_SysTickInit(CPU_CFG_CPU_CORE_FREQ / OS_CFG_TICK_RATE_HZ);
 
+    os_running = true;
     OSStart(&err);
 
     if (err != OS_ERR_NONE) {
@@ -138,12 +139,16 @@ void os_thread_sleep_least_us(uint32_t us)
    uCOS-III mutexes can be taken multiple times by the owner. */
 void __malloc_lock(void)
 {
-    os_mutex_take(&malloc_mutex);
+    if (os_running) {
+        os_mutex_take(&malloc_mutex);
+    }
 }
 
 void __malloc_unlock(void)
 {
-    os_mutex_release(&malloc_mutex);
+    if (os_running) {
+        os_mutex_release(&malloc_mutex);
+    }
 }
 
 
