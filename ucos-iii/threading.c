@@ -7,11 +7,10 @@
 #include "../xmalloc.h"
 
 /* default newlib context */
-struct _reent *default_newlib_reent;
+static struct _reent *default_newlib_reent;
 
 /* mutex to guard malloc access */
-mutex_t malloc_mutex;
-
+static mutex_t malloc_mutex;
 
 void os_init(void)
 {
