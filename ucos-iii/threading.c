@@ -151,6 +151,19 @@ void __malloc_unlock(void)
     }
 }
 
+void sys_tick_handler(void)
+{
+    /* call uCOS Port SysTick handler */
+    OS_CPU_SysTickHandler();
+}
+
+__attribute__((naked))
+void pend_sv_handler(void)
+{
+    /* call uCOS Port context switch handler */
+    OS_CPU_PendSVHandler();
+}
+
 
 /* OS hooks */
 
