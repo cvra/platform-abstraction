@@ -1,5 +1,5 @@
 #ifndef TIMESTAMP_H_
-#define TIMESTAMP_H_y
+#define TIMESTAMP_H_
 
 #include <stdint.h>
 
