@@ -10,6 +10,7 @@ target.arm:
     - ucos-iii/threading.c
     - ucos-iii/semaphore.c
     - ucos-iii/mutex.c
+    - ucos-iii/timestamp.c
 
 tests:
     - mock/semaphore.c
