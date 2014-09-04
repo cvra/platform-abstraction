@@ -4,8 +4,11 @@
 #include "threading.h"
 #include <os_cfg_app.h>
 
-#define REG_SYSTICK_RVR             (*(uint32_t *)0xE000E014)
-#define REG_SYSTICK_CVR             (*(uint32_t *)0xE000E018)
+/* SysTick reload value register */
+#define REG_SYSTICK_RVR             (*(volatile uint32_t *)0xE000E014)
+
+/* SysTick current value register */
+#define REG_SYSTICK_CVR             (*(volatile uint32_t *)0xE000E018)
 
 uint32_t os_timestamp_get(void)
 {
@@ -26,7 +29,7 @@ uint32_t os_timestamp_get(void)
     /* calculate time in microseconds */
     timestamp = ticks * (1000000 / OS_CFG_TICK_RATE_HZ);
 
-    /* SysTick is counting down */
+    /* SysTick is counting down, subtract from reload value */
     cur = REG_SYSTICK_RVR - cur;
 
     /* add current timer value */
