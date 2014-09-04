@@ -4,6 +4,7 @@ depends:
 source:
     - xmalloc.c
     - panic.c
+    - timestamp.c
 
 target.arm:
     - ucos-iii/threading.c
@@ -14,8 +15,10 @@ tests:
     - mock/semaphore.c
     - mock/mutex.c
     - mock/criticalsection.c
+    - mock/timestamp.cpp
     - tests/semaphore_mock_test.cpp
     - tests/mutex_mock_test.cpp
     - tests/criticalsection_mock_test.cpp
     - tests/panic_mock_test.cpp
     - tests/malloc_test.cpp
+    - tests/timestamp_test.cpp
