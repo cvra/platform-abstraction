@@ -4,6 +4,13 @@
 #include "threading.h"
 #include <os_cfg_app.h>
 
+/* Note:
+ * For the timestamps to be precise, the defines CPU_CFG_CPU_CORE_FREQ and
+ * OS_CFG_TICK_RATE_HZ must fulfill following conditions:
+ *  - CPU_CFG_CPU_CORE_FREQ must be a mutiple of 1MHz.
+ *  - OS_CFG_TICK_RATE_HZ must be divisor of 1MHz.
+ */
+
 /* SysTick reload value register */
 #define REG_SYSTICK_RVR             (*(volatile uint32_t *)0xE000E014)
 
