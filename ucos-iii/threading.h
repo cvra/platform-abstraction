@@ -17,4 +17,6 @@ typedef struct {
     size_t stack_size;
 } os_thread_t;
 
+extern uint32_t os_sys_ticks;
+
 #endif

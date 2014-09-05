@@ -13,6 +13,9 @@ static struct _reent *default_newlib_reent;
 static mutex_t malloc_mutex;
 static bool os_running = false;
 
+/* timer tick counter */
+uint32_t os_sys_ticks = 0;
+
 void os_init(void)
 {
     CPU_Init();
@@ -153,6 +156,9 @@ void __malloc_unlock(void)
 
 void sys_tick_handler(void)
 {
+    /* count timer ticks */
+    os_sys_ticks += 1;
+
     /* call uCOS Port SysTick handler */
     OS_CPU_SysTickHandler();
 }
