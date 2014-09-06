@@ -14,14 +14,14 @@ void os_semaphore_init(semaphore_t *sem, uint32_t count)
     }
 }
 
-void os_semaphore_take(semaphore_t *sem)
+void os_semaphore_wait(semaphore_t *sem)
 {
     OS_ERR err;
 
     OSSemPend(&sem->ucos_sem, 0, OS_OPT_PEND_BLOCKING, NULL, &err);
 
     if (err != OS_ERR_NONE) {
-        PANIC("Semaphore take: %d", err);
+        PANIC("Semaphore pend: %d", err);
     }
 }
 

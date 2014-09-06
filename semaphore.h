@@ -13,16 +13,22 @@
 /** Initializes the semaphore with given count value. */
 void os_semaphore_init(semaphore_t *sem, uint32_t count);
 
-/** Takes the semaphore if available, blocks if not available. */
-void os_semaphore_take(semaphore_t *sem);
+/** Decrements the semaphore if available, blocks if not available. */
+void os_semaphore_wait(semaphore_t *sem);
 
-/** Takes the semaphore non-blocking */
+/** Decrements the semaphore non-blocking.
+ *
+ * @return true if the semaphore was decremented, false if it would have blocked.
+ */
 bool os_semaphore_try(semaphore_t *sem);
 
-/** Acquire the semaphore blocking with timeout [us] */
+/** Tries to decrements the semaphore before a given timeout (in us).
+ *
+ * @return true if it was decremented, false if it timed out.
+ */
 bool os_semaphore_try_timeout(semaphore_t *sem, uint32_t timeout);
 
-/** Releases (posts) the semaphore. */
+/** Increments the semaphore. */
 void os_semaphore_release(semaphore_t *sem);
 
 #endif

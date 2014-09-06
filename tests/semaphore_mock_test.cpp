@@ -19,7 +19,7 @@ TEST(SemaphoreMockTestGroup, CanTakeSemaphore)
 {
     os_semaphore_init(&sem, 1);
 
-    os_semaphore_take(&sem);
+    os_semaphore_wait(&sem);
     CHECK_EQUAL(0, sem.count);
     CHECK_EQUAL(1, sem.acquired_count);
 }
