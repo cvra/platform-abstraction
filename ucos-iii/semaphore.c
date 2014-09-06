@@ -62,13 +62,13 @@ bool os_semaphore_try_timeout(semaphore_t *sem, uint32_t timeout)
     }
 }
 
-void os_semaphore_release(semaphore_t *sem)
+void os_semaphore_signal(semaphore_t *sem)
 {
     OS_ERR err;
 
     OSSemPost(&sem->ucos_sem, OS_OPT_POST_1, &err);
 
     if (err != OS_ERR_NONE) {
-        PANIC("Semaphore release: %d", err);
+        PANIC("Semaphore signal: %d", err);
     }
 }

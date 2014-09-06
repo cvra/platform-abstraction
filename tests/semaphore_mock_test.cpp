@@ -46,10 +46,10 @@ TEST(SemaphoreMockTestGroup, CanTryTimeoutSemaphore)
     CHECK_EQUAL(1, sem.acquired_count);
 }
 
-TEST(SemaphoreMockTestGroup, CanReleaseSemaphore)
+TEST(SemaphoreMockTestGroup, CanSignalSemaphore)
 {
     os_semaphore_init(&sem, 1);
-    os_semaphore_release(&sem);
+    os_semaphore_signal(&sem);
 
     CHECK_EQUAL(2, sem.count);
 }
