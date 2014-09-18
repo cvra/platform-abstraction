@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef __unix__
 #include "mock/criticalsection.h"
 #else
@@ -24,8 +28,8 @@
         {    CPU_CRITICAL_ENTER(); } \
         else if(__critctrl > 0) \
         {   CPU_CRITICAL_EXIT(); __critctrl = 0; break; }\
-        else for(__critical_alloc = 0; __critical_alloc<1; __critical_alloc++) 
-  
+        else for(__critical_alloc = 0; __critical_alloc<1; __critical_alloc++)
+
 
 /** Critical section enter macro
  * \warn Will generate a compile-time bug if CRITICAL_SECTION_ALLOC hasn't been called beforehand
@@ -36,5 +40,9 @@
  * \warn Will generate a compile-time bug if CRITICAL_SECTION_ALLOC hasn't been called beforehand
  */
 #define CRITICAL_SECTION_EXIT() {if(sizeof(__critical_alloc)>0){CPU_CRITICAL_EXIT();}}
-    
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

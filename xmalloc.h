@@ -3,6 +3,10 @@
 
 #include <stdlib.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** Safe wrapper for malloc.
  *
  * In case of an out of memory error, it will panic().
@@ -18,5 +22,8 @@ void xfree(void *p);
 /** Wrapper for realloc() similar to xmalloc. */
 void* xrealloc(void *p, size_t size);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
