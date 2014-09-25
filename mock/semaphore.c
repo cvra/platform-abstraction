@@ -8,7 +8,7 @@ void os_semaphore_init(semaphore_t *sem, uint32_t count)
     sem->acquired_count = 0;
 }
 
-void os_semaphore_take(semaphore_t *sem)
+void os_semaphore_wait(semaphore_t *sem)
 {
     assert(sem->count > 0);
     sem->count--;
@@ -31,7 +31,7 @@ bool os_semaphore_try_timeout(semaphore_t *sem, uint32_t timeout)
     return os_semaphore_try(sem);
 }
 
-void os_semaphore_release(semaphore_t *sem)
+void os_semaphore_signal(semaphore_t *sem)
 {
     sem->count ++;
 }
