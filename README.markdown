@@ -29,7 +29,7 @@ semaphore_t mysem;
 os_semaphore_init(&mysem, 10);
 
 /* Take (decrease) semaphore, blocks until available.*/
-os_semaphore_take(&mysem);
+os_semaphore_wait(&mysem);
 
 /* Only take semaphore when immediately available. */
 if (os_semaphore_try(&mysem)) {
@@ -44,7 +44,7 @@ if (os_semaphore_try_timeout(&mysem, 42000)) {
 }
 
 /* Release (increase) semaphore. */
-os_semaphore_release(&mysem);
+os_semaphore_signal(&mysem);
 ```
 
 ## Use in testing
