@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef __unix__
 #include "mock/mutex.h"
 #else
@@ -24,5 +28,9 @@ bool os_mutex_try_timeout(mutex_t *mutex, uint32_t timeout);
 
 /** Release a mutex. */
 void os_mutex_release(mutex_t *mutex);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

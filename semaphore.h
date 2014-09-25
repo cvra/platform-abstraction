@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef __unix__
 #include "mock/semaphore.h"
 #else
@@ -30,5 +34,9 @@ bool os_semaphore_try_timeout(semaphore_t *sem, uint32_t timeout);
 
 /** Increments the semaphore. */
 void os_semaphore_signal(semaphore_t *sem);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

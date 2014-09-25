@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef __unix__
 #include "mock/threading.h"
 #else
@@ -24,5 +28,9 @@ void os_thread_sleep_us(uint32_t us);
 
 /** Sleep for at least us microseconds */
 void os_thread_sleep_least_us(uint32_t us);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* THREADING_H_ */
