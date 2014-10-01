@@ -109,13 +109,13 @@ CHECK_FALSE(my_mutex->acquired);
 A critical section disables temporarily all interrupts at the CPU level, ensuring that all variables and data structures are edited atomically.
 
 
-## Direct Example 
+## Direct Example
 
 ```c
 void myFunction(void* mySharedResource) {
 
     /* initialize variables */
-    int myVariable = 0; 
+    int myVariable = 0;
 
     /* after ALL initialization, call this */
     CRITICAL_SECTION_ALLOC();
