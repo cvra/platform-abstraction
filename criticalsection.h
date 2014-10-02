@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-#ifdef __unix__
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
 #include "mock/criticalsection.h"
 #else
 #include <cpu.h>
