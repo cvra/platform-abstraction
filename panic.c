@@ -12,7 +12,7 @@ void panic_impl(const char *file, int line, const char *msg, ...)
 
     va_end(ap);
 
-#ifdef __unix__
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
     abort();
 #endif
 }
